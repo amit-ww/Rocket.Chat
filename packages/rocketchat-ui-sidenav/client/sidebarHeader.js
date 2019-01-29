@@ -9,6 +9,8 @@ import { callbacks } from 'meteor/rocketchat:callbacks';
 import { settings } from 'meteor/rocketchat:settings';
 import { hasAtLeastOnePermission } from 'meteor/rocketchat:authorization';
 
+import { moodPopover } from 'meteor/rocketchat:ui-utils';
+
 const setStatus = (status) => {
 	AccountBox.setStatus(status);
 	callbacks.run('userStatusManuallySet', status);
@@ -236,7 +238,93 @@ const toolbarButtons = (user) => [{
 
 		popover.open(config);
 	},
+},
+{
+	name: t('Mood'),
+	icon: 'emoji',
+	action: (e) => {
+		const options = [];
+		const config = {
+			popoverClass: 'sidebar-header',
+			columns: [
+				{
+					groups: [
+						{
+							title: t('Mood'),
+							items: [
+								{
+									icon: 'emoji',
+									name: t('Happy'),
+									action: () => 
+									Meteor.call('moodCounter', 'happy', function(error) {
+										if (error) {
+											return handleError(error);
+										}
+									})
+								},
+								{
+									icon: 'emoji',
+									name: t('Not Happy'),
+									action: () => 
+									Meteor.call('moodCounter', 'not_happy', function(error) {
+										if (error) {
+											return handleError(error);
+										}
+									})
+								},
+								{
+									icon: 'emoji',
+									name: t('Confused'),
+									action: () => 
+									Meteor.call('moodCounter', 'confused', function(error) {
+										if (error) {
+											return handleError(error);
+										}
+									})
+								},
+								{
+									icon: 'emoji',
+									name: t('Sad'),
+									action: () => 
+									Meteor.call('moodCounter', 'sad', function(error) {
+										if (error) {
+											return handleError(error);
+										}
+									})
+								},
+							],
+						},
+						// {
+						// 	items: [
+						// 		{
+						// 			icon: 'emoji',
+						// 			name: t('Happy Count - '+ ((Meteor.user().mood_counter || {}).happy || 0)),
+						// 		},
+						// 		{
+						// 			icon: 'emoji',
+						// 			name: t('Not Happy Count - '+ ((Meteor.user().mood_counter || {}).not_happy || 0)),
+						// 		},
+						// 		{
+						// 			icon: 'emoji',
+						// 			name: t('Confused Count - '+ ((Meteor.user().mood_counter || {}).confused || 0)),
+						// 		},
+						// 		{
+						// 			icon: 'emoji',
+						// 			name: t('Sad Count - '+ ((Meteor.user().mood_counter || {}).sad || 0)),
+						// 		}
+						// 	],
+						// },
+					],
+				},
+			],
+			currentTarget: e.currentTarget,
+			offsetVertical: e.currentTarget.clientHeight + 10,
+		};
+
+		moodPopover.open(config);
+	},
 }];
+
 Template.sidebarHeader.helpers({
 	myUserInfo() {
 		const id = Meteor.userId();

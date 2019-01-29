@@ -23,3 +23,4 @@ export { popout } from './lib/popout';
 export { messageProperties } from '../lib/MessageProperties';
 export { MessageTypes } from '../lib/MessageTypes';
 export { alerts } from './lib/alerts';
+export { moodPopover } from './lib/moodPopover';

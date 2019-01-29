@@ -11,6 +11,7 @@ Meteor.publish('activeUsers', function() {
 			name: 1,
 			status: 1,
 			utcOffset: 1,
+			mood_counter: 1
 		},
 	});
 });
